@@ -39,8 +39,15 @@ def get_kernel_density(r, fcs_dir, fluor, fluor_name, x_coordinates, logicle_tra
 def plot_single_strain(tdf, ax, major_xtick_positions, major_tick_labels, minor_xtick_positions):
     """Plot all replicates for a single strain
     """
-    # to do
-    pass
+    for i, r in enumerate(tdf.itertuples()):
+        color = colorcet.glasbey_light[i]
+        sample = f"{r.strain}-{r.replicate}"
+        ax.plot(x_coordinates, r.norm_kd, color=color, label=sample)
+    ax.legend()
+    ax.set_xticks(major_xtick_positions)
+    ax.set_xticklabels(major_tick_labels, rotation=90)
+    ax.set_xticks(minor_xtick_positions, minor=True)
+    ax.set_xlim(.2,.9)
 
 
 logicle_transform = flowkit.transforms.LogicleTransform("logicle", param_t=2**24, 
